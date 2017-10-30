@@ -9,7 +9,15 @@ var gulp        = require('gulp'),
     imagemin    = require('gulp-imagemin'),
     pngquant    = require('imagemin-pngquant'),
     //cache       = require('gulp-cache'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    pug         = require('gulp-pug');
+
+
+gulp.task('pug', function() {
+    return gulp.src('app/**/*.pug')
+    .pipe(pug())
+    .pipe(gulp.dest('app'))
+});
 
 gulp.task('sass', function() {
     return gulp.src('app/sass/**/*.sass') // если установить !, то файл исключается
@@ -78,7 +86,8 @@ gulp.task('img', function() {
 });
 */
 
-gulp.task('watch', ['browser-sync', 'css-libs', 'scripts'], function() {
+gulp.task('watch', ['browser-sync', 'css-libs', 'scripts', 'pug'], function() {
+    gulp.watch('app/pug/**/*.pug', ['pug']);
     gulp.watch('app/sass/**/*.sass', ['sass']);
     gulp.watch('app/*.html', browserSync.reload);
     gulp.watch('app/js/**/*.js', browserSync.reload);
